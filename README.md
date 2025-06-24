@@ -1,78 +1,67 @@
-# ☕ Cafeteria App
+☕ Cafeteria App
+Order system for a coffee shop, with a user-friendly graphical interface built in Java Swing. The app allows simulating coffee orders, managing a cart, displaying the receipt, and completing the purchase.
 
-Sistema de pedidos para uma cafeteria, com interface gráfica amigável construída em **Java Swing**. O app permite simular pedidos de café, controlar o carrinho, exibir o recibo e finalizar a compra.
+🎯 Features
+ Start screen with "Start Order" button
 
----
+ Selection screen with customer name, product list, and interactive buttons
 
-## 🎯 Funcionalidades
+ Add and remove products with visual feedback
 
-- [x] Tela inicial com botão "Começar Pedido"
-- [x] Tela de seleção com nome do cliente, lista de produtos e botões interativos
-- [x] Adição e remoção de produtos com feedback visual
-- [x] Cálculo automático do valor total
-- [x] Recibo com nome do cliente, data/hora, resumo dos itens e formas de pagamento
-- [x] Botões estilizados e interface moderna com imagens
+ Automatic total value calculation
 
----
+ Receipt with customer name, date/time, item summary, and payment methods
 
-## 🖼️ Tecnologias utilizadas
+ Styled buttons and modern interface with images
 
-- **Java 17**
-- **Swing (AWT)**
-- **VS Code com extensões Java**
-- Imagens personalizadas (ícones, fundo, xícara etc.)
+🖼️ Technologies Used
+Java 17
 
----
+Swing (AWT)
 
-## 🗂️ Estrutura do Projeto
+VS Code with Java extensions
+
+Custom images (icons, background, cup, etc.)
+
+🗂️ Project Structure
 
 cafeteria-app/
 │
 ├── controller/
-│ └── PedidoController.java
-│ └── Pedido.java
+│   └── PedidoController.java
+│   └── Pedido.java
 │
 ├── model/
-│ └── Produto.java
-│ └── ProdutoRepository.java
-│ └── BotaoArredondado.java
-│ └── JLabelComSombra.java
+│   └── Produto.java
+│   └── ProdutoRepository.java
+│   └── BotaoArredondado.java
+│   └── JLabelComSombra.java
 │
 ├── view/
-│ └── TelaInicio.java
-│ └── TelaPedido.java
-│ └── TelaPagamento.java
-│ └── PagamentoDinheiro.java
-│ └── Recibo.java
-│ └── TelaFinal.java
+│   └── TelaInicio.java
+│   └── TelaPedido.java
+│   └── TelaPagamento.java
+│   └── PagamentoDinheiro.java
+│   └── Recibo.java
+│   └── TelaFinal.java
 │
 ├── imagens/
-│ └── fundo.jpg
-│ └── xicara.png
-│ └── casa.png
+│   └── fundo.jpg
+│   └── xicara.png
+│   └── casa.png
 │
 └── Main.java
+📷 Interface
+Interface images can be found in the imagens/ folder or below (if added on GitHub).
 
-yaml
-Copiar
-Editar
+🚀 How to Run
+Clone the repository:
 
----
+git clone https://github.com/teixeirare/Cafeteria-app.git
 
-## 📷 Interface
+Open the project in VSCode with Java extensions installed.
 
-Imagens da interface podem ser vistas diretamente na pasta `imagens/` ou abaixo (caso você adicione via GitHub).
+Run Main.java to start the application.
 
----
-
-## 🚀 Como rodar
-
-1. Clone o repositório:
-   ```bash
-   git clone https://github.com/teixeirare/Cafeteria-app.git
-Abra o projeto no VSCode com extensões Java instaladas.
-
-Execute Main.java para iniciar.
-
-📝 Licença
-Este projeto é livre para fins de aprendizado. Imagens utilizadas são apenas ilustrativas.
+📝 License
+This project is free for learning purposes. Images used are for illustrative purposes only.
