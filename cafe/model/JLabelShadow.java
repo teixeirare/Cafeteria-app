@@ -3,10 +3,10 @@ package cafe.model;
 import javax.swing.*;
 import java.awt.*;
 
-public class JLabelComSombra extends JLabel {
+public class JLabelShadow extends JLabel {
 
-    public JLabelComSombra(String texto) {
-        super(texto);
+    public JLabelShadow(String text) {
+        super(text);
         setForeground(Color.WHITE);
         setFont(new Font("Arial", Font.PLAIN, 15));
         setOpaque(false);

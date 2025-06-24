@@ -3,10 +3,10 @@ package cafe.model;
 import javax.swing.*;
 import java.awt.*;
 
-public class BotaoArredondado extends JButton {
+public class RoundedBoot extends JButton {
 
-    public BotaoArredondado(String texto) {
-        super(texto);
+    public RoundedBoot(String text) {
+        super(text);
         setContentAreaFilled(false);
         setFocusPainted(false);
         setBorderPainted(false);

@@ -1,10 +1,10 @@
 package cafe.model;
 
-public class Produto {
+public class Product {
     private final String nome;
     private final float preco;
 
-    public Produto(String nome, float preco) {
+    public Product(String nome, float preco) {
         this.nome = nome;
         this.preco = preco;
     }
@@ -13,7 +13,7 @@ public class Produto {
         return nome;
     }
 
-    public float getPreco() {
+    public float getPrice() {
         return preco;
     }
 

@@ -1,53 +1,53 @@
 package cafe.controller;
 
-import cafe.model.Produto;
+import cafe.model.Product;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-public class PedidoController {
+public class RequestController {
 
-    private final List<Produto> carrinho = new ArrayList<>();
-    private String cliente;
+    private final List<Product> cart = new ArrayList<>();
+    private String client;
 
     
-    public void adicionarProduto(Produto produto) {
-        carrinho.add(produto);
+    public void adicionarProduto(Product product) {
+        cart.add(product);
     }
 
-    public void removerProduto(Produto produto) {
-        carrinho.remove(produto); // remove a primeira ocorrência
+    public void removeProduct(Product product) {
+        cart.remove(product); // remove a primeira ocorrência
     }
 
-    public List<Produto> getCarrinho() {
-        return new ArrayList<>(carrinho); // retorno defensivo
+    public List<Product> getCart() {
+        return new ArrayList<>(cart); // retorno defensivo
     }
 
-    public float calcularTotal() {
+    public float calculateTotal() {
         float total = 0f;
-        for (Produto p : carrinho) {
-            total += p.getPreco();
+        for (Product p : cart) {
+            total += p.getPrice();
         }
         return total;
     }
 
-    public void limparCarrinho() {
-        carrinho.clear();
+    public void cleanCart() {
+        cart.clear();
     }
 
-    public void setCliente(String nome) {
-        this.cliente = nome;
+    public void setClient(String name) {
+        this.client = name;
     }
 
-    public String getCliente() {
-        return cliente;
+    public String getClient() {
+        return client;
     }
 
-    public int getQuantidade(Produto produto) {
+    public int getQuantity(Product product) {
     int count = 0;
-    for (Produto p : carrinho) {
-        if (p.equals(produto)) {
+    for (Product p : cart) {
+        if (p.equals(product)) {
             count++;
         }
     }
@@ -56,42 +56,42 @@ public class PedidoController {
 
     public float getTotal() {
     float total = 0f;
-    for (Produto p : carrinho) {
-        total += p.getPreco();
+    for (Product p : cart) {
+        total += p.getPrice();
     }
     return total;
 }
 
 
-    public String gerarReciboHTML() {
+    public String generateReceiptHTML() {
         StringBuilder sb = new StringBuilder();
         sb.append("<html><body style='font-family: sans-serif;'>");
         sb.append("<h2 style='text-align:center; font-size: 22px;'>Receipt</h2>");
-        sb.append("<p><strong>Customer:</strong> ").append(cliente).append("</p>");
+        sb.append("<p><strong>Customer:</strong> ").append(client).append("</p>");
 
-        LocalDateTime agora = LocalDateTime.now();
+        LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-        String dataHoraFormatada = agora.format(formatter);
+        String dateTimeFormatted = now.format(formatter);
 
-        sb.append("<p><strong>Date:</strong> ").append(dataHoraFormatada).append("</p><br>");
+        sb.append("<p><strong>Date:</strong> ").append(dateTimeFormatted).append("</p><br>");
 
 
-        Map<Produto, Integer> contador = new LinkedHashMap<>();
-        for (Produto p : carrinho) {
-            contador.put(p, contador.getOrDefault(p, 0) + 1);
+        Map<Product, Integer> accountant = new LinkedHashMap<>();
+        for (Product p : cart) {
+            accountant.put(p, accountant.getOrDefault(p, 0) + 1);
         }
 
         sb.append("<table style='width:100%; border-spacing: 0 8px;'>");
-        for (Map.Entry<Produto, Integer> entry : contador.entrySet()) {
-            Produto produto = entry.getKey();
+        for (Map.Entry<Product, Integer> entry : accountant.entrySet()) {
+            Product product = entry.getKey();
             int qtd = entry.getValue();
-            float subtotal = qtd * produto.getPreco();
+            float subtotal = qtd * product.getPrice();
 
             sb.append("<tr>")
               .append("<td style='padding: 2px 5px;'>")
               .append(qtd).append("x")
               .append("&nbsp;&nbsp;")
-              .append(produto.getNome())
+              .append(product.getNome())
               .append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")
               .append("</td>")
               .append("<td style='text-align:left; font-size:10px;'>")
@@ -108,7 +108,7 @@ public class PedidoController {
             sb.append("<tr>")
               .append("<td style='text-align:left; font-size:15px;'><strong>Total:</strong></td>")
               .append("<td style='text-align:right; font-size:15px;'>$ ")
-              .append(String.format("%.2f", calcularTotal())).append("</td>")
+              .append(String.format("%.2f", calculateTotal())).append("</td>")
               .append("</tr>");
             sb.append("</table>");
 
