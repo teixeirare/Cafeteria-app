@@ -10,7 +10,7 @@ import java.awt.*;
 public class TelaFinal extends JFrame {
 
     public TelaFinal(String cliente) {
-        setTitle("Pedido");
+        setTitle("FINAL");
         setSize(800, 820);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -22,65 +22,47 @@ public class TelaFinal extends JFrame {
         add(painel);
 
          
-        JLabel aprovado = new JLabel("APROVADO!");
-        aprovado.setBounds(170, 120, 500, 60);
-        aprovado.setFont(new Font("Arial", Font.BOLD, 60));
+        JLabel aprovado = new JLabel("APPROVED!");
+        aprovado.setBounds(170, 340, 500, 70);
+        aprovado.setFont(new Font("Arial", Font.BOLD, 70));
         aprovado.setHorizontalAlignment(SwingConstants.CENTER);
         aprovado.setForeground(Color.WHITE);
         painel.add(aprovado);
 
-        JLabel mensagem = new JLabel("PEDIDO FEITO COM SUCESSO!");
-        mensagem.setBounds(250, 200, 320, 30);
+        JLabel mensagem = new JLabel("ORDER SUCCESSFUL!");
+        mensagem.setBounds(250, 450, 320, 30);
         mensagem.setFont(new Font("Arial", Font.BOLD, 20));
         mensagem.setHorizontalAlignment(SwingConstants.CENTER);
         mensagem.setForeground(Color.WHITE);
         painel.add(mensagem);
 
-        JLabel resposta = new JLabel(cliente + " seu pedido está sendo preparado!");
-        resposta.setBounds(160, 250, 500, 50);
+        JLabel resposta = new JLabel(cliente + " your order is being prepared!");
+        resposta.setBounds(160, 480, 500, 50);
         resposta.setFont(new Font("Arial", Font.BOLD, 20));
         resposta.setHorizontalAlignment(SwingConstants.CENTER);
-        resposta.setForeground(Color.black);
+        resposta.setForeground(Color.white);
         painel.add(resposta);
 
-        JButton voltar = new BotaoArredondado("Fazer outro pedido");
-        voltar.setBounds(270, 550, 260, 40);
-        voltar.setFont(new Font("Arial", Font.BOLD, 18));
-        voltar.setBackground(Color.white);
-        voltar.setForeground(Color.black);
-        painel.add(voltar);
-
-        JButton finalizar = new BotaoArredondado("Finalizar");
-        finalizar.setBounds(270, 650, 260, 40);
-        finalizar.setFont(new Font("Arial", Font.BOLD, 18));
-        finalizar.setBackground(Color.BLACK);
+        JButton finalizar = new BotaoArredondado("Finish");
+        finalizar.setBounds(270, 550, 280, 50);
+        finalizar.setFont(new Font("Arial", Font.PLAIN, 20));
+        finalizar.setBackground(Color.DARK_GRAY);
         finalizar.setForeground(Color.white);
         painel.add(finalizar);
 
-       
-
         JLabel imagem = criarImagem();
+        JLabel xicara = criarImagem2();
         painel.add(imagem);
+        painel.add(xicara);
        
 
-        // ================================================================================================
+        
 
-        ImageIcon iconHome = new ImageIcon("C:/dev/JS/treinamento_java/cafeteria/imagens/final.png");
-        Image img = iconHome.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
-        JButton botaoInicio = new JButton(new ImageIcon(img));
-        botaoInicio.setBounds(730, -5, 60, 60);
-        botaoInicio.setContentAreaFilled(false); // remove fundo
-        botaoInicio.setBorderPainted(false);    // remove borda
-        botaoInicio.setFocusPainted(false);
-        botaoInicio.setToolTipText("Voltar ao início");
-        painel.add(botaoInicio);
-
+      
         //===========================================================================================================
 
-        voltar.addActionListener(e -> {
-            new TelaPedido();
-            dispose();
-        });
+        
+
 
         finalizar.addActionListener(e -> {
             for (Window w : Window.getWindows()) {
@@ -94,11 +76,20 @@ public class TelaFinal extends JFrame {
     }
 
     private JLabel criarImagem() {
-        String caminho = "C:/dev/JS/treinamento_java/cafeteria/imagens/fundo.jpg";
+        String caminho = "C:/dev/JS/treinamento_java/cafeteria/imagens/logo.jpg";
         ImageIcon icon = new ImageIcon(caminho);
         Image imagemRedimensionada = icon.getImage().getScaledInstance(800, 820, Image.SCALE_SMOOTH);
         JLabel label = new JLabel(new ImageIcon(imagemRedimensionada));
         label.setBounds(0, 0, 800, 820);
+        return label;
+    }
+    
+    private JLabel criarImagem2() {
+        String caminho = "C:/dev/JS/treinamento_java/cafeteria/imagens/xicarates.jpg";
+        ImageIcon icon = new ImageIcon(caminho);
+        //Image imagemRedimensionada = icon.getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH);
+        JLabel label = new JLabel(icon);
+        label.setBounds(250, 250, 400, 400);
         return label;
     }
 

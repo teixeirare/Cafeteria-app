@@ -66,14 +66,14 @@ public class PedidoController {
     public String gerarReciboHTML() {
         StringBuilder sb = new StringBuilder();
         sb.append("<html><body style='font-family: sans-serif;'>");
-        sb.append("<h2 style='text-align:center; font-size: 22px;'>Recibo</h2>");
-        sb.append("<p><strong>Cliente:</strong> ").append(cliente).append("</p>");
+        sb.append("<h2 style='text-align:center; font-size: 22px;'>Receipt</h2>");
+        sb.append("<p><strong>Customer:</strong> ").append(cliente).append("</p>");
 
         LocalDateTime agora = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         String dataHoraFormatada = agora.format(formatter);
 
-        sb.append("<p><strong>Data:</strong> ").append(dataHoraFormatada).append("</p><br>");
+        sb.append("<p><strong>Date:</strong> ").append(dataHoraFormatada).append("</p><br>");
 
 
         Map<Produto, Integer> contador = new LinkedHashMap<>();
@@ -95,7 +95,7 @@ public class PedidoController {
               .append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")
               .append("</td>")
               .append("<td style='text-align:left; font-size:10px;'>")
-              .append("<td style='text-align:right; font-size:10px;'>R$ ")
+              .append("<td style='text-align:right; font-size:10px;'>$ ")
               .append(String.format("%.2f", subtotal))
               //.append("</td>")
               .append("</tr>");
@@ -107,7 +107,7 @@ public class PedidoController {
             sb.append("<table style='width:100%;'>");
             sb.append("<tr>")
               .append("<td style='text-align:left; font-size:15px;'><strong>Total:</strong></td>")
-              .append("<td style='text-align:right; font-size:15px;'>R$ ")
+              .append("<td style='text-align:right; font-size:15px;'>$ ")
               .append(String.format("%.2f", calcularTotal())).append("</td>")
               .append("</tr>");
             sb.append("</table>");

@@ -21,7 +21,7 @@ public class TelaPedido extends JFrame {
 
     public TelaPedido() {
         this.pedidoController = new PedidoController();
-        setTitle("Pedido");
+        setTitle("ORDER");
         setSize(800, 820);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -32,13 +32,13 @@ public class TelaPedido extends JFrame {
         panel.setBackground(new Color(222, 184, 135));
         add(panel);
 
-        JLabel titulo = new JLabel("ESCOLHA SEU CAFÉ");
+        JLabel titulo = new JLabel("CHOOSE YOUR COFFEE");
         titulo.setFont(new Font("Arial", Font.BOLD, 35));
-        titulo.setBounds(230, 20, 400, 35);
+        titulo.setBounds(230, 20, 500, 35);
         titulo.setForeground(Color.white);
         panel.add(titulo);
 
-        JLabel nomeLabel = new JLabel("Nome:");
+        JLabel nomeLabel = new JLabel("Name:");
         nomeLabel.setBounds(10, 100, 100, 30);
         nomeLabel.setFont(new Font("Arial", Font.BOLD, 15));
         nomeLabel.setForeground(Color.white);
@@ -55,10 +55,6 @@ public class TelaPedido extends JFrame {
         int y = 170;
         int index = 1;
         for (Produto produto : produtos) {
-
-            /*ImageIcon iconHome = new ImageIcon("C:/dev/JS/treinamento_java/cafeteria/imagens/xicara2.png");
-            Image img = iconHome.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-            JButton botao = new JButton(new ImageIcon(img));*/
 
             JButton botao = new BotaoArredondado(String.valueOf(index));
             botao.setBounds(40, y, 50, 30);
@@ -95,30 +91,32 @@ public class TelaPedido extends JFrame {
         botaoInicio.setContentAreaFilled(false); // remove fundo
         botaoInicio.setBorderPainted(false);    // remove borda
         botaoInicio.setFocusPainted(false);
-        botaoInicio.setToolTipText("Voltar ao início");
+        botaoInicio.setToolTipText("Go back");
         panel.add(botaoInicio);
         
         
         JButton botaoAdd = new BotaoArredondado("+");
-        botaoAdd.setBounds(240, 700, 50, 30);
+        botaoAdd.setBounds(240, 700, 50, 40);
+        botaoAdd.setFont(new Font("Arial", Font.BOLD, 18));
         panel.add(botaoAdd);
 
         JButton botaoRemover = new BotaoArredondado("-");
-        botaoRemover.setBounds(490, 700, 50, 30);
+        botaoRemover.setBounds(490, 700, 50, 40);
+        botaoRemover.setFont(new Font("Arial", Font.BOLD, 18));
         panel.add(botaoRemover);
 
-        JButton botaoPagar = new BotaoArredondado("PAGAR");
+        JButton botaoPagar = new BotaoArredondado("PAY");
         botaoPagar.setBounds(330, 700, 130, 30);
         botaoPagar.setFont(new Font("Arial", Font.PLAIN, 15));
         botaoPagar.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(botaoPagar);
 
-        JLabel labelValor = new JLabelComSombra("Valor:");
+        JLabel labelValor = new JLabelComSombra("Price:");
         labelValor.setFont(new Font("Arial", Font.BOLD, 16));
         labelValor.setBounds(340, 740, 100, 30);
         panel.add(labelValor);
 
-        labelTotal = new JLabelComSombra("R$ 0,00");
+        labelTotal = new JLabelComSombra("$ 0,00");
         labelTotal.setBounds(390, 740, 200, 30);
         panel.add(labelTotal);
 
@@ -151,7 +149,7 @@ public class TelaPedido extends JFrame {
         botaoPagar.addActionListener(e -> {
             String nomeCliente = campoNome.getText().trim();
             if (nomeCliente.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Digite o nome do cliente!");
+                JOptionPane.showMessageDialog(this, "Type in the customer's name!");
                 return;
             }
             pedidoController.setCliente(nomeCliente);
@@ -194,7 +192,7 @@ public class TelaPedido extends JFrame {
 
     private void atualizarTotal() {
         float total = pedidoController.calcularTotal();
-        labelTotal.setText(String.format("R$ %.2f", total).replace('.', ','));
+        labelTotal.setText(String.format("$ %.2f", total).replace('.', ','));
     }
 
      

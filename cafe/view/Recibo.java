@@ -16,7 +16,7 @@ public class Recibo extends JFrame {
     }
 
     private void inicializar() {
-        setTitle("Recibo");
+        setTitle("RECEIPT");
         setSize(800, 820);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -25,9 +25,6 @@ public class Recibo extends JFrame {
         JPanel painel = new JPanel(null);
         painel.setBounds(0, 0, 800, 820);
         painel.setBackground(new Color(222, 184, 135));
-        
-
-        // Imagem
         
 
         // Texto com recibo
@@ -45,32 +42,32 @@ public class Recibo extends JFrame {
         painel.add(reciboTexto);
 
         // Botões de pagamento
-        JButton botaoCredito = new BotaoArredondado("CRÉDITO");
+        JButton botaoCredito = new BotaoArredondado("CREDIT");
         botaoCredito.setBounds( 200, 680, 130, 30);
         botaoCredito.setBackground(Color.white);
         botaoCredito.setForeground(Color.black);
         botaoCredito.setFont(new Font("Arial", Font.PLAIN, 15));
 
-        JButton botaoDebito = new BotaoArredondado("DÉBITO");
+        JButton botaoDebito = new BotaoArredondado("DEBIT");
         botaoDebito.setBounds(340, 680,130, 30);
         botaoDebito.setFont(new Font("Arial", Font.PLAIN, 15));
         botaoDebito.setHorizontalAlignment(SwingConstants.CENTER);
         botaoDebito.setBackground(Color.white);
         botaoDebito.setForeground(Color.black);
 
-        JButton botaoDinheiro =new BotaoArredondado("DINHEIRO");
+        JButton botaoDinheiro =new BotaoArredondado("CASH");
         botaoDinheiro.setBounds(480, 680,130, 30);
         botaoDinheiro.setFont(new Font("Arial", Font.PLAIN, 15));
         botaoDinheiro.setBackground(Color.white);
         botaoDinheiro.setForeground(Color.black);
 
-        JButton botaoPagar = new BotaoArredondado("PAGAR");
+        JButton botaoPagar = new BotaoArredondado("PAY");
         botaoPagar.setBounds(270, 720,130, 30);
         botaoPagar.setFont(new Font("Arial", Font.PLAIN, 15));
         //botaoPagar.setBackground(Color.white);
         //botaoPagar.setForeground(Color.black);
 
-        JButton botaoCancelar = new BotaoArredondado("CANCELAR");
+        JButton botaoCancelar = new BotaoArredondado("BACK");
         botaoCancelar.setBounds(430, 720,130, 30);
         botaoCancelar.setFont(new Font("Arial", Font.PLAIN, 15));
         //botaoCancelar.setBackground(Color.white);

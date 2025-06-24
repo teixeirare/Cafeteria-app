@@ -13,7 +13,7 @@ public class TelaInicio extends JFrame {
     }
 
     private void inicializar() {
-        setTitle("Cafeteria");
+        setTitle("COFFEE");
         setSize(800, 820);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -26,7 +26,7 @@ public class TelaInicio extends JFrame {
 
 
 
-        JButton botaoComecar = new BotaoArredondado("Começar o pedido");
+        JButton botaoComecar = new BotaoArredondado("Start your order");
 
         botaoComecar.setBounds(270, 550, 280, 50);
         botaoComecar.setBackground(Color.DARK_GRAY);
@@ -37,10 +37,22 @@ public class TelaInicio extends JFrame {
         JLabel imagem = criarImagem();
         painel.add(imagem);
 
+        /*JButton telaPagamento = new BotaoArredondado("Finish");
+        telaPagamento.setBounds(270, 550, 280, 50);
+        telaPagamento.setFont(new Font("Arial", Font.PLAIN, 20));
+        telaPagamento.setBackground(Color.DARK_GRAY);
+        telaPagamento.setForeground(Color.white);
+        telaPagamento.add(telaPagamento);*/
+
         botaoComecar.addActionListener(e -> {
             new TelaPedido();
             dispose();
         });
+
+        /*telaPagamento.addActionListener(e -> {
+            new TelaPagamento(null);
+            dispose();
+        });*/
 
         setVisible(true);
     }
