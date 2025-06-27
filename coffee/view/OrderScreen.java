@@ -1,12 +1,13 @@
-package cafe.view;
-
-import cafe.controller.RequestController;
-import cafe.model.RoundedBoot;
-import cafe.model.JLabelShadow;
-import cafe.model.Product;
-import cafe.model.ProductRepository;
+package coffee.view;
 
 import javax.swing.*;
+
+import coffee.controller.RequestController;
+import coffee.model.JLabelShadow;
+import coffee.model.Product;
+import coffee.model.ProductRepository;
+import coffee.model.RoundedBoot;
+
 import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
@@ -33,8 +34,8 @@ public class OrderScreen extends JFrame {
         add(panel);
 
         JLabel title = new JLabel("CHOOSE YOUR COFFEE");
-        title.setFont(new Font("Arial", Font.BOLD, 35));
-        title.setBounds(230, 20, 500, 35);
+        title.setFont(new Font("Arial", Font.BOLD, 40));
+        title.setBounds(190, 20, 500, 35);
         title.setForeground(Color.white);
         panel.add(title);
 
@@ -74,7 +75,7 @@ public class OrderScreen extends JFrame {
             buttonMap.put(product, button);
 
            button.addActionListener(e -> {
-                requestController.adicionarProduto(product);
+                requestController.addProduct(product);
                 updateQuantity(product);
                 updateTotal();
                 lastSelected = product;
@@ -84,7 +85,7 @@ public class OrderScreen extends JFrame {
             index++;
         }
 
-        ImageIcon iconHome = new ImageIcon("C:/dev/JS/treinamento_java/cafeteria/imagens/casa2.png");
+        ImageIcon iconHome = new ImageIcon("C:/cafeteria/imagens/home.png");
         Image img = iconHome.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
         JButton jbnStart = new JButton(new ImageIcon(img));
         jbnStart.setBounds(730, -5, 60, 60);
@@ -132,7 +133,7 @@ public class OrderScreen extends JFrame {
         
         jbnAdd.addActionListener(e -> {
             if (lastSelected != null) {
-                requestController.adicionarProduto(lastSelected);
+                requestController.addProduct(lastSelected);
                 updateQuantity(lastSelected);
                 updateTotal();
             }
@@ -154,9 +155,7 @@ public class OrderScreen extends JFrame {
             }
             requestController.setClient(nameClient);
             new ReceiptScreen(requestController);
-            
-
-            
+       
         });
 
         setVisible(true);
@@ -198,7 +197,7 @@ public class OrderScreen extends JFrame {
      
 
     private JLabel createImage() {
-        String path = "C:/dev/JS/treinamento_java/cafeteria/imagens/fundo.jpg";
+        String path = "C:/cafeteria/imagens/fundo.jpg";
         ImageIcon icon = new ImageIcon(path);
         Image imageResized = icon.getImage().getScaledInstance(800, 820, Image.SCALE_SMOOTH);
         JLabel label = new JLabel(new ImageIcon(imageResized));

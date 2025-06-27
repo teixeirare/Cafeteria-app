@@ -28,29 +28,34 @@ Custom images (icons, background, cup, etc.)
 cafeteria-app/
 │
 ├── controller/
-│   └── PedidoController.java
-│   └── Pedido.java
+│   └── Order.java
+│   └── RequestController.java
 │
 ├── model/
-│   └── Produto.java
-│   └── ProdutoRepository.java
-│   └── BotaoArredondado.java
-│   └── JLabelComSombra.java
+│   └── JLabelShadow.java
+│   └── Product.java
+│   └── ProductRepository.java
+│   └── RoundedBoot.java
+|
+|   receipt/
+│   └── ReceiptGenerator.java
+│   └── ReceiptPrinter.java
+│   └── ReceiptSaver.java
 │
 ├── view/
-│   └── TelaInicio.java
-│   └── TelaPedido.java
-│   └── TelaPagamento.java
-│   └── PagamentoDinheiro.java
-│   └── Recibo.java
-│   └── TelaFinal.java
-│
+│   └── EndScreen.java
+│   └── OrderScreen.java
+│   └── PaymentCash.java
+│   └── ReceiptScreen.java
+│   └── StartScreen.java
+│  │
 ├── imagens/
+│   └── home.png
 │   └── fundo.jpg
-│   └── xicara.png
-│   └── casa.png
+│   └── logo.jpg
 │
 └── Main.java
+
 📷 Interface
 Interface images can be found in the imagens/ folder or below (if added on GitHub).
 

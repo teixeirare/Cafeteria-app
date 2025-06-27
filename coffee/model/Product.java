@@ -1,4 +1,4 @@
-package cafe.model;
+package coffee.model;
 
 public class Product {
     private final String nome;

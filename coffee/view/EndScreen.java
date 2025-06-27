@@ -1,8 +1,8 @@
-package cafe.view;
+package coffee.view;
 
 import javax.swing.*;
 
-import cafe.model.RoundedBoot;
+import coffee.model.RoundedBoot;
 
 import java.awt.*;
 //import cafe.view.TelaInicio;
@@ -76,7 +76,7 @@ public class EndScreen extends JFrame {
     }
 
     private JLabel createImage() {
-        String path = "C:/dev/JS/treinamento_java/cafeteria/imagens/logo.jpg";
+        String path = "C:/cafeteria/imagens/fundo.jpg";
         ImageIcon icon = new ImageIcon(path);
         Image imageResized = icon.getImage().getScaledInstance(800, 820, Image.SCALE_SMOOTH);
         JLabel label = new JLabel(new ImageIcon(imageResized));
@@ -85,7 +85,7 @@ public class EndScreen extends JFrame {
     }
     
     private JLabel createImage2() {
-        String path = "C:/dev/JS/treinamento_java/cafeteria/imagens/xicarates.jpg";
+        String path = "C:/cafeteria/imagens/xicarates.jpg";
         ImageIcon icon = new ImageIcon(path);
         //Image imageResized = icon.getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH);
         JLabel label = new JLabel(icon);

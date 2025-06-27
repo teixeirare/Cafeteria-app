@@ -1,13 +1,11 @@
-package cafe.view;
-
-import cafe.controller.RequestController;
-//import cafe.model.Pedido;
-import cafe.model.RoundedBoot;
+package coffee.view;
 
 import javax.swing.*;
+
+import coffee.controller.RequestController;
+import coffee.model.RoundedBoot;
+
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class PaymentCash extends JFrame {
 
@@ -71,43 +69,63 @@ public class PaymentCash extends JFrame {
         JLabel image = createImage();
         panel.add(image);
 
-        jbnCalculate.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    float valueReceived = Float.parseFloat(fieldValue.getText());
-                    float change = valueReceived - requestController.getTotal();
+        // ==================== Eventos =====================
 
-                    if (change < 0) {
-                        JOptionPane.showMessageDialog(null, "Not enough.", "Error", JOptionPane.ERROR_MESSAGE);
-                        changeResult.setText("$ 0.00");
-                        jbnPaid.setEnabled(false);
-                    } else {
-                        changeResult.setText(String.format("$ %.2f", change));
-                        jbnPaid.setEnabled(true);
-                    }
-                } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(null, "Type a valid value.", "Error", JOptionPane.ERROR_MESSAGE);
+        jbnCalculate.addActionListener(e -> {
+            try {
+                float valueReceived = Float.parseFloat(fieldValue.getText());
+                float change = valueReceived - requestController.calculateTotal();
+
+                if (change < 0) {
+                    JOptionPane.showMessageDialog(null, "Not enough.", "Error", JOptionPane.ERROR_MESSAGE);
+                    changeResult.setText("$ 0.00");
                     jbnPaid.setEnabled(false);
+                } else {
+                    changeResult.setText(String.format("$ %.2f", change));
+                    jbnPaid.setEnabled(true);
                 }
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, "Type a valid value.", "Error", JOptionPane.ERROR_MESSAGE);
+                jbnPaid.setEnabled(false);
             }
         });
 
         jbnBack.addActionListener(e -> dispose());
-        
-        
 
         jbnPaid.addActionListener(e -> {
-            new EndScreen(requestController.getClient());
-            previousScreen.dispose();
-            dispose();
+            try {
+                float valueReceived = Float.parseFloat(fieldValue.getText());
+                float total = requestController.calculateTotal();
+                float change = valueReceived - total;
+
+                // Setar todos os campos necessários
+                requestController.setPaymentMethod("CASH");
+                requestController.setValueReceived(valueReceived);
+                requestController.setChange(change);
+
+                // Gerar o número do pedido apenas aqui!
+                requestController.generateAndSetOrderNumber();
+
+                // Salvar, imprimir, etc
+                requestController.saveReceiptToHtmlFile();
+                requestController.printReceiptComplete();
+                requestController.printPreparationList();
+
+                // Fechar telas e ir para o final
+                new coffee.view.EndScreen(requestController.getClient());
+                previousScreen.dispose();
+                dispose();
+
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, "Type a valid value.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         });
 
         setVisible(true);
     }
 
     private JLabel createImage() {
-        String path = "C:/dev/JS/treinamento_java/cafeteria/imagens/fundo.jpg";
+        String path = "C:/cafeteria/imagens/fundo.jpg";
         ImageIcon icon = new ImageIcon(path);
         Image imageResized = icon.getImage().getScaledInstance(800, 820, Image.SCALE_SMOOTH);
         JLabel label = new JLabel(new ImageIcon(imageResized));
@@ -115,3 +133,4 @@ public class PaymentCash extends JFrame {
         return label;
     }
 }
+

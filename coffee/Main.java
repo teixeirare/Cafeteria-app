@@ -1,6 +1,6 @@
-package cafe;
+package coffee;
 
-import cafe.view.StartScreen;
+import coffee.view.StartScreen;
 
 public class Main {
     public static void main(String[] args) {

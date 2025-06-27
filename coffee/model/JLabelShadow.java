@@ -1,4 +1,4 @@
-package cafe.model;
+package coffee.model;
 
 import javax.swing.*;
 import java.awt.*;
