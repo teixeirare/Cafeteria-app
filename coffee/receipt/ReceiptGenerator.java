@@ -8,8 +8,8 @@ import coffee.model.Product;
 
 public class ReceiptGenerator {
 
-    public static String generateHTML(List<Product> cart, String client, String orderNumber, String cnpj,
-                                     String paymentMethod, Float valueReceived, Float change, float total) {
+    public static String generateHTML(List<Product> cart, String client, String orderNumber, 
+    String paymentMethod, Float valueReceived, Float change, float total) {
         StringBuilder sb = new StringBuilder();
         sb.append("<html><head>")
           .append("<style>")
@@ -26,13 +26,14 @@ public class ReceiptGenerator {
         sb.append("<h2>RECEIPT</h2>");
         sb.append("<div class='info'>");
         if (orderNumber != null) sb.append("<b>Order No:</b> ").append(orderNumber).append("<br>");
-        if (cnpj != null) sb.append("<b>CNPJ:</b> ").append(cnpj).append("<br>");
         sb.append("<b>Customer:</b> ").append(client == null ? "N/A" : client).append("<br>");
         sb.append("<b>Date:</b> ")
-          .append(ZonedDateTime.now(ZoneId.of("America/Toronto")).format(DateTimeFormatter.ofPattern("yyyy/MM/dd hh:mm a")))
+          .append(ZonedDateTime.now(ZoneId.of("America/Toronto"))
+          .format(DateTimeFormatter.ofPattern("yyyy/MM/dd hh:mm a")))
           .append("</div>");
 
-        // Itens do carrinho
+        // ======================================= Trolley items =======================================
+
         Map<Product, Integer> accountant = new LinkedHashMap<>();
         for (Product p : cart) accountant.put(p, accountant.getOrDefault(p, 0) + 1);
 
@@ -49,13 +50,15 @@ public class ReceiptGenerator {
             sb.append("<tr>")
               .append("<td style='text-align:left;padding-left:0;'>").append(qtd).append("</td>")
               .append("<td style='text-align:left;padding-left:0;'>").append(product.getNome()).append("</td>")
-              .append("<td style='text-align:right;padding-right:8px;'>").append(String.format("$ %.2f", subtotal)).append("</td>")
+              .append("<td style='text-align:right;padding-right:8px;'>").append(String.format("$ %.2f", subtotal))
+              .append("</td>")
               .append("</tr>");
         }
         sb.append("</table>");
 
-        // Pagamento
-        if (paymentMethod != null) {
+        // ============================================ Payment information ===========================================
+
+         if (paymentMethod != null) {
             sb.append("<div class='info'><b>Payment:</b> ")
               .append(paymentMethod.equalsIgnoreCase("CASH") ? "Cash" :
                       paymentMethod.equalsIgnoreCase("CREDIT") ? "Credit" :
@@ -65,9 +68,11 @@ public class ReceiptGenerator {
         }
         if (paymentMethod != null && paymentMethod.equalsIgnoreCase("CASH")) {
             if (valueReceived != null)
-                sb.append("<div class='info'><b>Received:</b> $ ").append(String.format("%.2f", valueReceived)).append("</div>");
+                sb.append("<div class='info'><b>Received:</b> $ ").append(String.format("%.2f", valueReceived))
+                .append("</div>");
             if (change != null)
-                sb.append("<div class='info'><b>Change:</b> $ ").append(String.format("%.2f", change)).append("</div>");
+                sb.append("<div class='info'><b>Change:</b> $ ").append(String.format("%.2f", change))
+                .append("</div>");
         }
 
         sb.append("<hr style='margin:4px 0 2px 0;'>");
@@ -83,13 +88,12 @@ public class ReceiptGenerator {
         return sb.toString();
     }
 
-    public static String generateText(List<Product> cart, String client, String orderNumber, String cnpj,
-                                      String paymentMethod, Float valueReceived, Float change, float total) {
+    public static String generateText(List<Product> cart, String client, String orderNumber, 
+    String paymentMethod, Float valueReceived, Float change, float total) {
         StringBuilder sb = new StringBuilder();
         int width = 40;
         sb.append(centerText("RECEIPT", width)).append("\n\n");
         if (orderNumber != null) sb.append("Order No: ").append(orderNumber).append("\n");
-        if (cnpj != null) sb.append("CNPJ: ").append(cnpj).append("\n");
         sb.append("Customer: ").append(client == null ? "N/A" : client).append("\n");
         sb.append("Date: ").append(ZonedDateTime.now(ZoneId.of("America/Toronto"))
                             .format(DateTimeFormatter.ofPattern("yyyy/MM/dd hh:mm a")))
@@ -115,7 +119,8 @@ public class ReceiptGenerator {
         return sb.toString();
     }
 
-    // Utilitário para centralizar texto no recibo texto
+    // ================================ Utility to center text on receipt text ================================
+    
     private static String centerText(String text, int width) {
         if (text.length() >= width) return text;
         int leftPadding = (width - text.length()) / 2;

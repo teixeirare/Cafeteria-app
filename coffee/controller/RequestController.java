@@ -14,7 +14,6 @@ public class RequestController {
     private final List<Product> cart = new ArrayList<>();
     private String client;
     private String orderNumber;
-    private String cnpj;
     private static String lastOrderDate = "";
     private static int orderSequence = 0;
 
@@ -22,11 +21,13 @@ public class RequestController {
     private Float valueReceived;
     private Float change;
 
-    // ===================== Adicione mais campos extras se precisar =====================
-    // private String telefone;
-    // private String observacao;
+    // =====================Add extra fields if you need to =====================
 
-    // ===================== Métodos padrão do carrinho =====================
+    // private String phone;
+    // private String observation;
+
+    // ===================== Standard trolley methods =====================
+
     public void addProduct(Product product) {
         cart.add(product);
     }
@@ -60,9 +61,23 @@ public class RequestController {
     }
 
     // ===================== Getters e Setters =====================
-    public void setClient(String client) {
+    
+     public void setClient(String client) {
+    if (client != null && !client.isEmpty()) {
+        String[] parts = client.trim().toLowerCase().split("\\s+");
+        StringBuilder sb = new StringBuilder();
+        for (String part : parts) {
+            if (!part.isEmpty()) {
+                sb.append(part.substring(0, 1).toUpperCase())
+                  .append(part.substring(1))
+                  .append(" ");
+            }
+        }
+        this.client = sb.toString().trim();
+    } else {
         this.client = client;
     }
+}
     public String getClient() {
         return client;
     }
@@ -72,13 +87,6 @@ public class RequestController {
     }
     public String getOrderNumber() {
         return orderNumber;
-    }
-
-    public void setCnpj(String cnpj) {
-        this.cnpj = cnpj;
-    }
-    public String getCnpj() {
-        return cnpj;
     }
 
     public void setPaymentMethod(String paymentMethod) {
@@ -102,7 +110,8 @@ public class RequestController {
         return change;
     }
 
-    // ===================== Geração do número sequencial do pedido =====================
+    // ===================== Order sequence number generation =====================
+    
     public void generateAndSetOrderNumber() {
         String today = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         if (!today.equals(lastOrderDate)) {
@@ -115,28 +124,29 @@ public class RequestController {
         setOrderNumber(num);
     }
 
-    // ===================== Métodos de recibo =====================
+    // ===================== Receipt methods =====================
 
     public void saveReceiptToHtmlFile() {
-        String html = ReceiptGenerator.generateHTML(cart, client, orderNumber, cnpj, paymentMethod, valueReceived, change, calculateTotal());
+        String html = ReceiptGenerator.generateHTML(cart, client, orderNumber, paymentMethod, valueReceived, change, calculateTotal());
         String timestamp = ZonedDateTime.now(ZoneId.of("America/Toronto")).format(DateTimeFormatter.ofPattern("yyyyMMdd_hhmm_a"));
         String fileName = orderNumber + "_" + (client == null ? "customer" : client) + "__receipt__" + timestamp + ".html";
         ReceiptSaver.saveToFile(html, fileName);
     }
 
     public void saveReceiptPlainTextToFile() {
-        String text = ReceiptGenerator.generateText(cart, client, orderNumber, cnpj, paymentMethod, valueReceived, change, calculateTotal());
+        String text = ReceiptGenerator.generateText(cart, client, orderNumber, paymentMethod, valueReceived, change, calculateTotal());
         String timestamp = ZonedDateTime.now(ZoneId.of("America/Toronto")).format(DateTimeFormatter.ofPattern("yyyyMMdd_hhmm_a"));
         String fileName = orderNumber + "_" + (client == null ? "customer" : client) + "__receipt__" + timestamp + ".txt";
         ReceiptSaver.saveToFile(text, fileName);
     }
 
     public void printReceiptComplete() {
-        String text = ReceiptGenerator.generateText(cart, client, orderNumber, cnpj, paymentMethod, valueReceived, change, calculateTotal());
+        String text = ReceiptGenerator.generateText(cart, client, orderNumber, paymentMethod, valueReceived, change, calculateTotal());
         ReceiptPrinter.print(text, "Coffee Receipt (Customer)");
     }
 
-    // ===================== Lista de preparo (plain text para cozinha) =====================
+    // ===================== Preparation list  =====================
+
     public String generatePreparationList() {
         Map<Product, Integer> accountant = new LinkedHashMap<>();
         for (Product p : cart) accountant.put(p, accountant.getOrDefault(p, 0) + 1);
@@ -162,8 +172,8 @@ public class RequestController {
         ReceiptPrinter.print(prepList, "Coffee Preparation List");
     }
 
-    // ===================== Adicione outros métodos que desejar =====================
-    // Exemplo: métodos para salvar/restaurar pedidos, listar históricos, etc.
+    // ===================== Add any other methods you wish =====================
+    // Example: methods for saving/restoring orders, listing histories, etc.
 
 }
 

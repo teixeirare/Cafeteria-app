@@ -8,7 +8,7 @@ public class JLabelShadow extends JLabel {
     public JLabelShadow(String text) {
         super(text);
         setForeground(Color.WHITE);
-        setFont(new Font("Arial", Font.PLAIN, 15));
+        setFont(new Font("Arial", Font.PLAIN, 12));
         setOpaque(false);
     }
 
@@ -22,11 +22,11 @@ public class JLabelShadow extends JLabel {
         int x = 0;
         int y = fm.getAscent();
 
-        // Sombra
+        // Shadow
         g2.setColor(Color.GRAY);
         g2.drawString(getText(), x + 0, y + 0);
 
-        // Texto principal
+        // Main text
         g2.setColor(getForeground());
         g2.drawString(getText(), x, y);
 

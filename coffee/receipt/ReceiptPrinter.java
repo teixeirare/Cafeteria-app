@@ -29,7 +29,7 @@ public class ReceiptPrinter {
 
 
 
-/* (sem diálogo) 
+/* =========================================== without dialog ==========================================
 
 try {
     job.print(); // Imprime sem perguntar
@@ -37,11 +37,10 @@ try {
     e.printStackTrace();
 }
  */
+ 
 
- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
- /// 
+ /* ====================================== With the two options (dialog or not) ========================================
 
- /* Com as duas opções (diálogo ou não) 
  
  public static void print(String content, String jobName, boolean showDialog) {
     PrinterJob job = PrinterJob.getPrinterJob();
@@ -70,11 +69,11 @@ try {
 }
 
 
-E na chamada, só decide:
+============================================ And in the call: ===============================================
 
-ReceiptPrinter.print(content, jobName, true); → Mostra diálogo
+ReceiptPrinter.print(content, jobName, true); → Show dialog
 
-ReceiptPrinter.print(content, jobName, false); → Imprime direto
+ReceiptPrinter.print(content, jobName, false); → Print directly
 
 
  */

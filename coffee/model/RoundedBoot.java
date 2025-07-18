@@ -10,8 +10,8 @@ public class RoundedBoot extends JButton {
         setContentAreaFilled(false);
         setFocusPainted(false);
         setBorderPainted(false);
-        setForeground(Color.black); // Cor do texto
-        setBackground(Color.WHITE); // Cor do fundo
+        setForeground(Color.black); 
+        setBackground(Color.WHITE);
         setFont(new Font("Arial", Font.BOLD, 14));
     }
 
@@ -22,14 +22,14 @@ public class RoundedBoot extends JButton {
 
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setColor(getBackground());
-        g2.fillRoundRect(0, 0, getWidth(), getHeight(), 30, 30); // 30 = raio do arredondamento
+        g2.fillRoundRect(0, 0, getWidth(), getHeight(), 30, 30); // 30 = rounding radius
         super.paintComponent(g);
         g2.dispose();
     }
 
     @Override
     protected void paintBorder(Graphics g) {
-        // Opcional: desenhar borda
+        // Optional: draw border
     }
 }
 

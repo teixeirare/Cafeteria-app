@@ -7,6 +7,7 @@ public class Product {
     public Product(String nome, float preco) {
         this.nome = nome;
         this.preco = preco;
+        
     }
 
     public String getNome() {
@@ -19,6 +20,6 @@ public class Product {
 
     @Override
     public String toString() {
-        return nome + " - $ " + String.format("%.2f", preco);
+        return nome + "- $ " + String.format("%.2f", preco);
     }
 }

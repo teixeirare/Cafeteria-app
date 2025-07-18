@@ -1,83 +1,98 @@
 package coffee.view;
 
 import javax.swing.*;
-
 import coffee.controller.RequestController;
+import coffee.model.JLabelShadow;
 import coffee.model.RoundedBoot;
-
 import java.awt.*;
 
 public class PaymentCash extends JFrame {
 
     public PaymentCash(JFrame previousScreen, RequestController requestController) {
         setTitle("CASH PAYMENT");
-        setSize(800, 150);
-        setLocationRelativeTo(null);
+        setSize(720, 480); // Proportion for the new image
+        setLocationRelativeTo(null); // Center on the screen
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setLayout(null);
 
-        JPanel panel = new JPanel(null);
-        panel.setBackground(new Color(222, 184, 135));
-        panel.setBounds(0, 0, 800, 150);
-        add(panel);
+        // =================================== Image background panel  ===================================
 
-        JLabel lblValue = new JLabel("VALUE");
-        lblValue.setBounds(10, 15, 150, 25);
-        lblValue.setFont(new Font("Arial", Font.PLAIN, 18));
-        lblValue.setForeground(Color.white);
-        panel.add(lblValue);
+        BackgroundPanel backgroundPanel = new BackgroundPanel();
+        setContentPane(backgroundPanel);
+        backgroundPanel.setLayout(null);
+
+        // ==================================== Centralized transparent panel =============================
+
+        JPanel paymentPanel = new JPanel(null);
+        paymentPanel.setOpaque(false);
+        paymentPanel.setBounds(0, 0, 720, 480);
+        backgroundPanel.add(paymentPanel);
+
+        // ========================================== Centralized title ====================================
+
+        JLabel lblTitle = new JLabel("CASH PAYMENT", SwingConstants.CENTER);
+        lblTitle.setFont(new Font("Arial", Font.BOLD, 32));
+        lblTitle.setForeground(Color.WHITE); // Café claro
+        lblTitle.setBounds(0, 60, 720, 45);
+        paymentPanel.add(lblTitle);
+
+        // ============================================= LABELS AND FIELDS ===================================
+
+        JLabel lblValue = new JLabelShadow("Value:");
+        lblValue.setFont(new Font("Arial", Font.ITALIC, 25));
+        lblValue.setForeground(Color.WHITE);
+        lblValue.setBounds(210, 145, 150, 32);
+        paymentPanel.add(lblValue);
 
         JTextField fieldValue = new JTextField();
-        fieldValue.setBounds(150, 15, 100, 25);
-        fieldValue.setFont(new Font("Arial", Font.PLAIN, 17));
-        panel.add(fieldValue);
+        fieldValue.setBounds(320, 145, 100, 30);
+        fieldValue.setFont(new Font("Arial", Font.PLAIN, 20));
+        fieldValue.setHorizontalAlignment(SwingConstants.CENTER);
+        fieldValue.setOpaque(true);
+        fieldValue.setForeground(Color.BLACK);
+        fieldValue.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
+        paymentPanel.add(fieldValue);
 
-        JButton jbnCalculate = new RoundedBoot("Calculate");
-        jbnCalculate.setBounds(270, 15, 130, 30);
-        jbnCalculate.setFont(new Font("Arial", Font.PLAIN, 15));
-        jbnCalculate.setBackground(Color.white);
-        jbnCalculate.setForeground(Color.black);
-        panel.add(jbnCalculate);
+        JLabel lblChange = new JLabelShadow("Change:");
+        lblChange.setFont(new Font("Arial", Font.ITALIC, 25));
+        lblChange.setForeground(Color.WHITE);
+        lblChange.setBounds(210, 200, 120, 28);
+        paymentPanel.add(lblChange);
 
-        JLabel lblChange = new JLabel("Change:");
-        lblChange.setBounds(10, 50, 100, 25);
-        lblChange.setFont(new Font("Arial", Font.PLAIN, 17));
-        lblChange.setForeground(Color.white);
-        panel.add(lblChange);
+        JLabel changeResult = new JLabel("$ 0.00", SwingConstants.LEFT);
+        changeResult.setFont(new Font("Arial", Font.ITALIC, 21));
+        changeResult.setForeground(Color.WHITE);
+        changeResult.setBounds(320, 200, 160, 28);
+        paymentPanel.add(changeResult);
 
-        JLabel changeResult = new JLabel("$ 0.00");
-        changeResult.setBounds(150, 50, 100, 25);
-        changeResult.setFont(new Font("Arial", Font.PLAIN, 17));
-        changeResult.setForeground(Color.white);
-        panel.add(changeResult);
+        // ============================================== Buttons =========================================
 
-        JButton jbnBack = new RoundedBoot("Back");
-        jbnBack.setBounds(405, 15, 130, 30);
-        jbnBack.setFont(new Font("Arial", Font.PLAIN, 15));
-        jbnBack.setBackground(Color.white);
-        jbnBack.setForeground(Color.black);
-        panel.add(jbnBack);
+        int botY = 300, width = 130, height = 25, spacing = 90;
+        int cx = 670 / 2;
+        JButton jbnCalculate = new RoundedBoot("CALCULATE");
+        jbnCalculate.setBounds(cx - width - spacing, botY, width, height);
+        jbnCalculate.setFont(new Font("Arial", Font.PLAIN, 13));
+        paymentPanel.add(jbnCalculate);
 
-        JButton jbnPaid = new RoundedBoot("Paid");
-        jbnPaid.setBounds(540, 15, 130, 30);
-        jbnPaid.setFont(new Font("Arial", Font.PLAIN, 15));
-        jbnPaid.setBackground(Color.white);
-        jbnPaid.setForeground(Color.black);
+        JButton jbnBack = new RoundedBoot("BACK");
+        jbnBack.setBounds(cx - width/2, botY, width, height);
+        jbnBack.setFont(new Font("Arial", Font.PLAIN, 13));
+        paymentPanel.add(jbnBack);
+
+        JButton jbnPaid = new RoundedBoot("PAID");
+        jbnPaid.setBounds(cx + spacing, botY, width, height);
+        jbnPaid.setFont(new Font("Arial", Font.PLAIN, 13));
         jbnPaid.setEnabled(false);
-        panel.add(jbnPaid);
+        paymentPanel.add(jbnPaid);
 
-        JLabel image = createImage();
-        panel.add(image);
-
-        // ==================== Eventos =====================
+        // =========================================== Acions ===============================================
 
         jbnCalculate.addActionListener(e -> {
             try {
-                float valueReceived = Float.parseFloat(fieldValue.getText());
+                float valueReceived = Float.parseFloat(fieldValue.getText().replace(',', '.'));
                 float change = valueReceived - requestController.calculateTotal();
 
                 if (change < 0) {
-                    JOptionPane.showMessageDialog(null, "Not enough.", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Not enough.", "Error", JOptionPane.ERROR_MESSAGE);
                     changeResult.setText("$ 0.00");
                     jbnPaid.setEnabled(false);
                 } else {
@@ -85,7 +100,7 @@ public class PaymentCash extends JFrame {
                     jbnPaid.setEnabled(true);
                 }
             } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(null, "Type a valid value.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Type a valid value.", "Error", JOptionPane.ERROR_MESSAGE);
                 jbnPaid.setEnabled(false);
             }
         });
@@ -94,43 +109,57 @@ public class PaymentCash extends JFrame {
 
         jbnPaid.addActionListener(e -> {
             try {
-                float valueReceived = Float.parseFloat(fieldValue.getText());
+                float valueReceived = Float.parseFloat(fieldValue.getText().replace(',', '.'));
                 float total = requestController.calculateTotal();
                 float change = valueReceived - total;
 
-                // Setar todos os campos necessários
                 requestController.setPaymentMethod("CASH");
                 requestController.setValueReceived(valueReceived);
                 requestController.setChange(change);
 
-                // Gerar o número do pedido apenas aqui!
                 requestController.generateAndSetOrderNumber();
-
-                // Salvar, imprimir, etc
                 requestController.saveReceiptToHtmlFile();
                 requestController.printReceiptComplete();
                 requestController.printPreparationList();
 
-                // Fechar telas e ir para o final
                 new coffee.view.EndScreen(requestController.getClient());
-                previousScreen.dispose();
+                if (previousScreen != null) previousScreen.dispose();
                 dispose();
-
             } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(null, "Type a valid value.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Type a valid value.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
 
         setVisible(true);
     }
 
-    private JLabel createImage() {
-        String path = "C:/cafeteria/imagens/fundo.jpg";
-        ImageIcon icon = new ImageIcon(path);
-        Image imageResized = icon.getImage().getScaledInstance(800, 820, Image.SCALE_SMOOTH);
-        JLabel label = new JLabel(new ImageIcon(imageResized));
-        label.setBounds(0, 0, 800, 820);
-        return label;
+      // ================================= Background panel for a 720x480 window =================================
+
+     static class BackgroundPanel extends JPanel {
+        private final Image backgroundImage;
+        public BackgroundPanel() {
+            String path = "C:/cafeteria/imagens/back.png";
+            ImageIcon icon = new ImageIcon(path);
+            backgroundImage = icon.getImage().getScaledInstance(
+                720, 480, Image.SCALE_SMOOTH
+            );
+        }
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            if (backgroundImage != null) {
+                g.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        JFrame fakePreviousScreen = null;
+        RequestController fakeRequestController = new RequestController();
+        new PaymentCash(fakePreviousScreen, fakeRequestController);
     }
 }
+
+
+
 

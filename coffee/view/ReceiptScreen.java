@@ -1,7 +1,6 @@
 package coffee.view;
 
 import javax.swing.*;
-
 import coffee.controller.RequestController;
 import coffee.model.RoundedBoot;
 import coffee.receipt.ReceiptGenerator;
@@ -11,7 +10,7 @@ import java.awt.*;
 public class ReceiptScreen extends JFrame {
 
     private final RequestController requestController;
-    private JLabel receiptText; // Agora campo da classe
+    private JLabel receiptText; 
 
     public ReceiptScreen(RequestController requestController) {
         this.requestController = requestController;
@@ -20,74 +19,77 @@ public class ReceiptScreen extends JFrame {
 
     private void initialize() {
         setTitle("RECEIPT");
-        setSize(800, 820);
-        setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setLayout(null);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
 
-        JPanel panel = new JPanel(null);
-        panel.setBounds(0, 0, 800, 820);
-        panel.setBackground(new Color(222, 184, 135));
+        //===================================== Background panel =============================================
 
-        // Recibo HTML gerado com utilitário
+        BackgroundPanel backgroundPanel = new BackgroundPanel();
+        setContentPane(backgroundPanel);
+        backgroundPanel.setLayout(null);
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int width = screenSize.width;
+        int height = screenSize.height;
+
+        // =========================== HTML receipt generated with utility class =============================
+
         String html = ReceiptGenerator.generateHTML(
             requestController.getCart(),
             requestController.getClient(),
             requestController.getOrderNumber(),
-            requestController.getCnpj(),
             requestController.getPaymentMethod(),
             requestController.getValueReceived(),
             requestController.getChange(),
             requestController.calculateTotal()
         );
         receiptText = new JLabel(html, SwingConstants.CENTER);
-        receiptText.setBounds(100, 120, 600, 500); // Ajuste conforme layout
-        receiptText.setFont(new Font("Arial", Font.PLAIN, 13));
+        receiptText.setFont(new Font("Arial", Font.PLAIN, 15));
         receiptText.setForeground(Color.white);
         receiptText.setHorizontalAlignment(SwingConstants.CENTER);
-        panel.add(receiptText);
+        receiptText.setVerticalAlignment(SwingConstants.TOP);
+        receiptText.setBounds(width/2 - 350, height/2 - 420, 700, 620); // centered
+        backgroundPanel.add(receiptText);
 
-        // Botões de pagamento
+        // ========================== Payment buttons, centered below the receipt =========================
+
+        int btnW = 100, btnH = 25;
+        int spacing = 20;
+        int baseY = height/2 + 180;
+
         JButton jbnCredit = new RoundedBoot("CREDIT");
-        jbnCredit.setBounds(200, 680, 130, 30);
-        jbnCredit.setBackground(Color.white);
-        jbnCredit.setForeground(Color.black);
-        jbnCredit.setFont(new Font("Arial", Font.PLAIN, 15));
+        jbnCredit.setBounds(width/2 - btnW - btnW/2 - spacing, baseY, btnW, btnH);
+        jbnCredit.setFont(new Font("Arial", Font.PLAIN, 13));
+       
 
         JButton jbnDebit = new RoundedBoot("DEBIT");
-        jbnDebit.setBounds(340, 680, 130, 30);
-        jbnDebit.setFont(new Font("Arial", Font.PLAIN, 15));
-        jbnDebit.setHorizontalAlignment(SwingConstants.CENTER);
-        jbnDebit.setBackground(Color.white);
-        jbnDebit.setForeground(Color.black);
+        jbnDebit.setBounds(width/2 - btnW/2, baseY, btnW, btnH);
+        jbnDebit.setFont(new Font("Arial", Font.PLAIN, 13));
+        
 
         JButton jbnCash = new RoundedBoot("CASH");
-        jbnCash.setBounds(480, 680, 130, 30);
-        jbnCash.setFont(new Font("Arial", Font.PLAIN, 15));
-        jbnCash.setBackground(Color.white);
-        jbnCash.setForeground(Color.black);
+        jbnCash.setBounds(width/2 + btnW/2 + spacing, baseY, btnW, btnH);
+        jbnCash.setFont(new Font("Arial", Font.PLAIN, 13));
+        
 
         JButton jbnPay = new RoundedBoot("PAY");
-        jbnPay.setBounds(270, 720, 130, 30);
-        jbnPay.setFont(new Font("Arial", Font.PLAIN, 15));
+        jbnPay.setBounds(width/2 - btnW - spacing/2, baseY + 65, btnW, btnH);
+        jbnPay.setFont(new Font("Arial", Font.BOLD, 13));
+        backgroundPanel.add(jbnPay);
 
         JButton jbnBack = new RoundedBoot("BACK");
-        jbnBack.setBounds(430, 720, 130, 30);
-        jbnBack.setFont(new Font("Arial", Font.PLAIN, 15));
+        jbnBack.setBounds(width/2 + spacing/2, baseY + 65, btnW, btnH);
+        jbnBack.setFont(new Font("Arial", Font.BOLD, 13));
+        backgroundPanel.add(jbnBack);
 
         jbnPay.setEnabled(false);
 
-        add(panel);
-        panel.add(jbnCredit);
-        panel.add(jbnDebit);
-        panel.add(jbnCash);
-        panel.add(jbnPay);
-        panel.add(jbnBack);
+        backgroundPanel.add(jbnCredit);
+        backgroundPanel.add(jbnDebit);
+        backgroundPanel.add(jbnCash);
 
-        JLabel image = createImage();
-        panel.add(image);
+        // =========================================== Acions ===============================================
 
-        // =========== EVENTOS ==============
         jbnBack.addActionListener(e -> dispose());
 
         jbnCredit.addActionListener(e -> {
@@ -96,7 +98,7 @@ public class ReceiptScreen extends JFrame {
             requestController.setChange(null);
             highlightSelected(jbnCredit, jbnDebit, jbnCash);
             jbnPay.setEnabled(true);
-            atualizarReciboNaTela();
+            updateReciboNaTela(); 
         });
 
         jbnDebit.addActionListener(e -> {
@@ -105,24 +107,19 @@ public class ReceiptScreen extends JFrame {
             requestController.setChange(null);
             highlightSelected(jbnDebit, jbnCredit, jbnCash);
             jbnPay.setEnabled(true);
-            atualizarReciboNaTela();
+            updateReciboNaTela();
         });
 
         jbnCash.addActionListener(e -> {
             PaymentCash windowMoney = new PaymentCash(this, requestController);
             highlightSelected(jbnCash, jbnCredit, jbnDebit);
-            windowMoney.setLocation(getX(), getY());
-            jbnPay.setEnabled(false); // Só libera o PAY quando pago em cash
+            windowMoney.setLocation(width/2 - 370, baseY + -619);
+            jbnPay.setEnabled(false); 
         });
 
         jbnPay.addActionListener(e -> {
-            // Gera número do pedido na hora da finalização
             requestController.generateAndSetOrderNumber();
-
-            // Atualiza recibo na tela com o número do pedido antes de imprimir/salvar
-            atualizarReciboNaTela();
-
-            // Salva, imprime, gera tela final
+            updateReciboNaTela();
             requestController.saveReceiptToHtmlFile();
             requestController.printReceiptComplete();
             requestController.printPreparationList();
@@ -134,13 +131,11 @@ public class ReceiptScreen extends JFrame {
         setVisible(true);
     }
 
-    private void atualizarReciboNaTela() {
-        // Sempre exibe a versão mais atual do recibo
+    private void updateReciboNaTela() {
         String html = ReceiptGenerator.generateHTML(
             requestController.getCart(),
             requestController.getClient(),
             requestController.getOrderNumber(),
-            requestController.getCnpj(),
             requestController.getPaymentMethod(),
             requestController.getValueReceived(),
             requestController.getChange(),
@@ -158,14 +153,35 @@ public class ReceiptScreen extends JFrame {
         }
     }
 
-    private JLabel createImage() {
-        String path = "C:/cafeteria/imagens/fundo.jpg";
-        ImageIcon icon = new ImageIcon(path);
-        Image imageResized = icon.getImage().getScaledInstance(800, 820, Image.SCALE_SMOOTH);
-        JLabel label = new JLabel(new ImageIcon(imageResized));
-        label.setBounds(0, 0, 800, 820);
-        return label;
+    // ======================= Customized background panel to fill the entire screen! ========================
+    
+    static class BackgroundPanel extends JPanel {
+        private final Image backgroundImage;
+        public BackgroundPanel() {
+            String path = "C:/cafeteria/imagens/back.png";
+            ImageIcon icon = new ImageIcon(path);
+            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+            backgroundImage = icon.getImage().getScaledInstance(
+                screenSize.width, screenSize.height, Image.SCALE_SMOOTH
+            );
+        }
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            if (backgroundImage != null) {
+                g.drawImage(backgroundImage, 0, 0, this.getWidth(), this.getHeight(), this);
+            }
+        }
+    }
+
+    // ============================================== Main Method ============================================
+    // This is just for testing purposes, you can remove it later.
+
+    public static void main(String[] args) {
+        RequestController fakeRequestController = new RequestController();
+        new ReceiptScreen(fakeRequestController);
     }
 }
+
 
 
